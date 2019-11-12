@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('mail', 'MailController@index');
+Route::get('mail/test-queue', 'MailController@testQueue');

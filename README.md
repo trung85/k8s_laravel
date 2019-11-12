@@ -75,13 +75,13 @@ For the purpose of this demo I've built a public Docker image and pushed to my a
 ## build application docker image
 
 ```
-docker build -t crunchgeek/laravel-project .
+docker build -t minhtrung/k8s-laravel .
 ```
 
 ## push image to the repository
 
 ```
-docker push crunchgeek/laravel-project
+docker push minhtrung/k8s-laravel
 ```
 
 # Kubernetes
