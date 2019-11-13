@@ -1,4 +1,4 @@
-appKey: base64:vw6G2uP8LV22haEERtzr5yDCBraLrMwbxlbSJDA97uk=
+appKey: base64:y+tUqqJqHybV2Al6uDHm01x5BJQP0Rxhf6ExVKNxYzs=
 
 replicaCount: 1
 minReplicas: 1
@@ -6,7 +6,7 @@ maxReplicas: 10
 targetCPUup: 60
 
 image:
-  repository: index.docker.io/crunchgeek/laravel-project
+  repository: minhtrung/k8s-laravel
   tag: latest
   pullPolicy: IfNotPresent
 

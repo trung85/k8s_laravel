@@ -15,24 +15,41 @@ data:
   APP_LOG_LEVEL:       "debug"
   APP_URL:             "http://localhost"
 
+  DB_CONNECTION:       "mysql"
+  DB_HOST:             "mysql"
+  DB_PORT:             "3306"
+  DB_DATABASE:         "k8s_laravel"
+  DB_USERNAME:         "mysql"
+  DB_PASSWORD:         "my-password"
+
   MYSQL_PORT:          "3306"
-  MYSQL_HOST:          "127.0.0.1"
-  MYSQL_DATABASE:      "homestead"
-  MYSQL_USER:          "homestead"
-  MYSQL_PASSWORD:      "secret"
-  MYSQL_ROOT_PASSWORD: "secret"
+  MYSQL_HOST:          "mysql"
+  MYSQL_DATABASE:      "k8s_laravel"
+  MYSQL_USER:          "root"
+  MYSQL_PASSWORD:      "rootpassword"
+  MYSQL_ROOT_PASSWORD: "rootpassword"
 
   BROADCAST_DRIVER:    "log"
   CACHE_DRIVER:        "file"
   SESSION_DRIVER:      "file"
-  QUEUE_DRIVER:        "sync"
+  SESSION_LIFETIME:    "120"
+  QUEUE_CONNECTION:    "sync"
 
-  REDIS_HOST:          "127.0.0.1"
+  REDIS_HOST:          "myredis"
+  REDIS_PASSWORD:      "null"
   REDIS_PORT:          "6379"
 
   AUTHY_SECRET:        "none"
   STRIPE_MODEL:        "App\\User"
   BRAINTREE_MODEL:     "App\\User"
+
+  MAIL_DRIVER:        "smtp"
+  MAIL_HOST:          "smtp.mailtrap.io"
+  MAIL_PORT:          "2525"
+  MAIL_USERNAME:      "af143a9a3ca0e5"
+  MAIL_PASSWORD:      "7765da2cf438be"
+  MAIL_FROM_ADDRESS:  "trungg@example.com"
+  MAIL_FROM_NAME:     "trungg"
 
   # Nginx configuration
   NGINX_INCLUDE_PATH:        "/config/nginx.conf"
