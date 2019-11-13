@@ -35,8 +35,8 @@ data:
   SESSION_LIFETIME:    "120"
   QUEUE_CONNECTION:    "sync"
 
-  REDIS_HOST:          "myredis"
-  REDIS_PASSWORD:      "null"
+  REDIS_HOST:          "redis-cluster"
+  REDIS_PASSWORD:      "password"
   REDIS_PORT:          "6379"
 
   AUTHY_SECRET:        "none"

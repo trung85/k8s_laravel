@@ -14,7 +14,8 @@ class MailController extends Controller
 {
     public function index() {
 
-        $order = Order::findOrFail( rand(1,50) );
+        // $order = Order::findOrFail( rand(1,50) );
+        $order = Order::findOrFail( rand(1, 1) );
 
         $recipient = 'steven@example.com';
 
@@ -25,7 +26,8 @@ class MailController extends Controller
 
     public function testQueue() {
 
-        $order = Order::findOrFail( rand(1,50) );
+        // $order = Order::findOrFail( rand(1,50) );
+        $order = Order::findOrFail( rand(1, 1) );
         SendOrderEmail::dispatch($order);
 
         Log::info('Dispatched order ' . $order->id);
