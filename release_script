@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+branch_name = `git rev-parse --abbrev-ref HEAD`.strip
+last_commit_hash = `git rev-parse HEAD 2> /dev/null`.strip
+last_commit_date = `git show -s --format="%cD"`.strip
+last_commit_author = `git show -s --format="%cn <%ce>"`.strip
+last_commit_message = `git show -s --format="%s"`.strip
+
+puts <<-REVISION
+== Release application to production
+
+Branch Name: #{branch_name}
+
+Last Commit:
+  Author:  #{last_commit_author}
+  Date:    #{last_commit_date}
+  Hash:    #{last_commit_hash}
+  Message: #{last_commit_message}
+
+REVISION
+
+print <<~CONFIRMATION.strip
+Do you want to deploy application to production?
+  Only 'yes' will be accepted to approve.
+
+  Enter a value:
+CONFIRMATION
+
+unless gets.strip == 'yes'
+  puts ''
+  puts 'Cancelled.'
+  exit(1)
+end
+
+tag_name = "release-#{Time.now.strftime("%Y-%m-%d-%H%M%S")}"
+`git tag #{tag_name}`
+`git push origin refs/tags/#{tag_name}`
+
+puts ''
+puts 'Done.'

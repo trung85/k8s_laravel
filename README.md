@@ -110,6 +110,50 @@ helm upgrade laravel-labs ./laravel -i
 helm del --purge laravel-labs
 ```
 
+# Install Application
+
+### delete helm chart
+```bash
+helm list -a
+helm del --purge laravel-labs
+```
+
+### install helm chart
+```bash
+helm install --name laravel-labs ./laravel
+```
+
+### get pods list
+```bash
+kubectl get pods -o
+```
+
+### forward port
+```bash
+kubectl port-forward laravel-labs-k8s-laravel-578c7785b-ghspg 9001:80
+Forwarding from 127.0.0.1:9001 -> 80
+Forwarding from [::1]:9001 -> 80
+```
+
+### migrate database
+link: https://laravel.com/docs/5.8/horizon
+
+```bash
+php artisan migrate
+php artisan db:seed
+```
+
+### start horizon
+```bash
+php artisan horizon
+
+php artisan horizon:pause
+php artisan horizon:continue
+
+php artisan horizon:terminate
+```
+
+
 That's it! Now the infrastructure will auto adjust itself to the app resources demand.
 
 ## Ingress / Load Balancing
