@@ -1,10 +1,3 @@
-# Laravel
-
-_Things evolve faster than my commitment to this documentation, but may still be helpful..._
-
-Walk through deploying a [Laravel](https://laravel.com/) application on auto scaled [Kubernetes](https://kubernetes.io/) cluster.
-
-**Goal**: Deploy Laravel [PHP](http://php.net/) app that will auto scale based on average CPU utilization across cluster nodes.
 
 ### Install Laravel with [composer](https://getcomposer.org/)
 
@@ -18,38 +11,11 @@ composer global require "laravel/installer"
 composer create-project --prefer-dist laravel/laravel laravel-project
 ```
 
-## Local development
-
-I have created `docker-compose.yml` with a typical infrastructure stack that includes:
-
--   MySQL (default database)
--   Redis (default cache engine)
--   Node (for auto compiling VUE components into app.js & css.js using webpack)
-
-Linked following folders to Docker volumes:
-
--   MySQL data storage
--   Laravel `vendors/`
--   Laravel `storage/`
--   Laravel `storage/public`
--   Laravel `node_modules`
-
-Therefore it's **important** to remember that while you work with this stack, the Laravel logs, compiled templates, cache files, vendor libraries, user uploads and application storage files, as well as MySQL database files will be saved in [Docker volumes](https://docs.docker.com/storage/volumes/).
-
 If you installed [docker-compose](https://docs.docker.com/compose/install/) already, simply run:
 
 ```bash
 docker-compose up
 ```
-
-and watch logs as Docker will pull all required stack images and provision application environment:
-
--   install required Laravel storage folders
--   run pending database migrations
--   run composer to install all vendor libraries
--   run node to install all dependencies to compile: app.js & app.css
-
-Both composer and node container will remain running. Node will monitor (watch) for changes in resourse/js/ files to re-compile them on the fly.
 
 Composer will remain running if you need to install additional vendor libraries, simply enter composer container shell with and for example install [Redis](https://laravel.com/docs/5.7/redis) support libs:
 
@@ -59,14 +25,22 @@ composer require predis/predis
 composer require laravel/horizon
 ```
 
+### start horizon
+```bash
+php artisan horizon
+
+php artisan horizon:pause
+php artisan horizon:continue
+
+php artisan horizon:terminate
+```
+
 Node container:
 
 ```bash
 docker exec -ti node bash
 npm install
 ```
-
-[Laravel Horizon](https://laravel.com/docs/5.7/horizon#installation) is a great package to manage Laravel queues with Redis.
 
 # Docker
 
@@ -86,11 +60,14 @@ docker push minhtrung/k8s-laravel
 
 # Kubernetes
 
-Having to work with Kubernetes for the last year I've got some experience with both [Google Cloud](https://cloud.google.com/) and [AWS services](https://aws.amazon.com/) providers.
+[Google Cloud](https://cloud.google.com/)
+[AWS services](https://aws.amazon.com/)
 
-I installed K8s on AWS using [KOPS](https://github.com/kubernetes/kops) and do not recommend this for production workloads. I run into multiple issues around I/O performance with Docker overlay. [AWS EKS](https://aws.amazon.com/eks/) does not appeal to me like [GKE](https://cloud.google.com/kubernetes-engine/). Google K8s is real hands off managed master node, with easy upgrades and it ended up as my go to solution.
+[KOPS](https://github.com/kubernetes/kops)
+[AWS EKS](https://aws.amazon.com/eks/)
+[GKE](https://cloud.google.com/kubernetes-engine/)
 
-I also learned about [Helm](https://helm.sh/), Kubernetes package manager. So once you get your K8s cluster up on GKE I recommend [this tutorial](https://cloud.google.com/solutions/continuous-integration-helm-concourse) to install Helm.
+[Helm](https://helm.sh/)
 
 ### test dry run helm chart
 
@@ -125,7 +102,14 @@ helm install --name laravel-labs ./laravel
 
 ### get pods list
 ```bash
-kubectl get pods -o
+kubectl get pods -o wide
+```
+
+### upgrade app
+```bash
+helm upgrade laravel-labs --set image.tag='release-2019-11-14-095326' ./laravel
+
+
 ```
 
 ### forward port
@@ -142,19 +126,6 @@ link: https://laravel.com/docs/5.8/horizon
 php artisan migrate
 php artisan db:seed
 ```
-
-### start horizon
-```bash
-php artisan horizon
-
-php artisan horizon:pause
-php artisan horizon:continue
-
-php artisan horizon:terminate
-```
-
-
-That's it! Now the infrastructure will auto adjust itself to the app resources demand.
 
 ## Ingress / Load Balancing
 

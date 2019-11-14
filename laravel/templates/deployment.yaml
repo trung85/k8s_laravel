@@ -8,6 +8,7 @@ metadata:
     chart: {{ template "laravel.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    date: "{{ .Release.Time.Seconds }}"
 
 spec:
   replicas: {{ .Values.minReplicas }}
