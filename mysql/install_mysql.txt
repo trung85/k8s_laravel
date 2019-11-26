@@ -1,0 +1,25 @@
+kubectl create -f  mysqldb-hostpath.yaml
+persistentvolume/mysql-pv created
+
+kubectl create -f  mysqldb-pvc.yaml
+persistentvolumeclaim/mysql-pvc created
+
+
+https://developer.ibm.com/blogs/kubernetes-helm-3/#client-only-architecture
+
+https://developer.ibm.com/blogs/kubernetes-helm-3/#chart-repository-status
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
+"stable" has been added to your repositories
+
+helm repo update
+
+
+Install mysql
+helm install mysql --set mysqlRootPassword=rootpassword,mysqlUser=mysql,mysqlPassword=my-password,mysqlDatabase=mydatabase,persistence.existingClaim=mysql-pvc stable/mysql
+
+
+Login mysql create database, add privileges:
+create database k8s_laravel;
+GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%';
+FLUSH PRIVILEGES;
+

@@ -72,10 +72,14 @@ docker push minhtrung/k8s-laravel
 ### test dry run helm chart
 
 ```bash
-helm install --name laravel-labs --dry-run --debug ./laravel
+helm install laravel-labs --dry-run --debug ./laravel
 ```
 
 ### install or upgrade current helm chart
+
+```bash
+helm install laravel-labs ./laravel
+```
 
 ```bash
 helm upgrade laravel-labs ./laravel -i
